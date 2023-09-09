@@ -1,6 +1,3 @@
-// This is your Prisma schema file,
-// learn more about it in the docs: https://pris.ly/d/prisma-schema
-
 generator client {
   provider = "prisma-client-js"
 }
@@ -10,51 +7,48 @@ datasource db {
   url      = env("DATABASE_URL")
 }
 
-
 model User {
-  id Int @id @default(autoincrement())
-  email String @unique
-  name String
-  role String
-
+  id      Int      @id @default(autoincrement())
+  email   String   @unique
+  name    String
+  role    String
+  posts   Post[]
   profile Profile?
-  posts Post[]
+
   @@map("users")
 }
 
 model Profile {
-  id Int @id @default(autoincrement())
-  bio String @unique
-  userID Int @unique
-  
-  user User @relation(fields: [userID], references: [id])
+  id     Int    @id @default(autoincrement())
+  bio    String
+  userId Int    @unique
+  user   User   @relation(fields: [userId], references: [id])
 
   @@map("profiles")
 }
 
 model Category {
-  id Int @id @default(autoincrement())
-  name String @unique
-
+  id    Int    @id @default(autoincrement())
+  name  String
   posts Post[]
-  @@map("categorys")
+
+  @@map("categoris")
 }
 
 model Post {
-  id Int @id @default(autoincrement())
-  title String @unique
-  authorId Int
-
-  author User @relation(fields: [authorId], references: [id])
-
-  categoryID Int
-
-  category Category @relation(fields: [categoryID], references: [id])
-
-  createAt DateTime @default(now())
+  id         Int      @id @default(autoincrement())
+  title      String
+  authorId   Int
+  categoryId Int
+  createdAt  DateTime @default(now())
   updatedAt  DateTime @updatedAt
-
-
+  author     User     @relation(fields: [authorId], references: [id])
+  category   Category @relation(fields: [categoryId], references: [id])
 
   @@map("posts")
+}
+
+model newModel {
+  id   String @id
+  name String
 }
