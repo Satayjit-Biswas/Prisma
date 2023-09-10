@@ -17,6 +17,8 @@ const getAllPost = async (options: any) => {
     const { sortBy, sortOrder, searchTerm, page, limit } = options;
     const skip = parseInt(limit) * parseInt(page) - parseInt(limit) || 0;
     const take = parseInt(limit) || 10;
+
+    // rollback function
     return await prisma.$transaction(async (tx) => {
         const result = await tx.post.findMany({
             skip,
